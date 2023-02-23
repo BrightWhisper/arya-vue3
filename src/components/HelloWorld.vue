@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, ref, computed, watchEffect } from 'vue'
 
 const PropsType = {
   mag: String,
@@ -7,12 +7,27 @@ const PropsType = {
     type: Number,
     required: true,
   },
-} as const
+}
 export default defineComponent({
   name: 'HelloWorld',
   props: PropsType,
-  mounted() {
-    this.age
+  setup(props, context) {
+    const name = ref('joky')
+    setInterval(() => {
+      name.value = name.value + '1'
+    }, 1000)
+
+    const computedName = computed(() => {
+      return name.value + 2
+    })
+
+    watchEffect(() => {
+      console.log('1')
+    })
+    return {
+      name,
+      computedName,
+    }
   },
 })
 </script>
@@ -20,6 +35,8 @@ export default defineComponent({
 <template>
   <div class="hello">
     {{ age }}
+    <div>{{ name }}</div>
+    <div>{{ computedName }}</div>
   </div>
 </template>
 
